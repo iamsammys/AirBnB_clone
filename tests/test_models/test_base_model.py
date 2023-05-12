@@ -5,8 +5,10 @@ Created by:
     Emmanuel Ochoja
 """
 
+from models import base_model
 from models.base_model import BaseModel
 import datetime
+import inspect
 import json
 import unittest
 
@@ -18,6 +20,29 @@ class TestBaseModel(unittest.TestCase):
         """Creates a new instance before calling the test functions
         """
         self.base = BaseModel()
+        self.functions = inspect.getmembers(BaseModel, inspect.isfunction)
+    
+    def test_module_docstring(self):
+        """tests that module is documented
+        """
+        self.assertGreater(len(base_model.__doc__), 1)
+
+    def test_class_documentation(self):
+        """tests that class is documented
+        """
+        self.assertGreater(len(BaseModel.__doc__), 1)
+
+    def test_function_documentation(self):
+        """tests the documentation for functions
+        """
+        for name, function in self.functions:
+            self.assertGreater(len(function.__doc__), 1)
+
+    def test_type(self):
+        """tests the instance types
+        """
+        self.assertTrue(isinstance(self.base, BaseModel))
+        self.assertTrue(type(self.base), BaseModel)
 
     def test_id_is_unique(self):
         """tests that the id is unique
@@ -84,5 +109,6 @@ class TestBaseModel(unittest.TestCase):
         new_obj = BaseModel(**dictionary)
         self.assertTrue(isinstance(new_obj, BaseModel))
         self.assertNotEqual(new_obj, self.base)
+
 if __name__ == "__main__":
     unittest.main()
