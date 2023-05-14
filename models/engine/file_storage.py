@@ -53,4 +53,4 @@ class FileStorage:
                     obj = BaseModel(**value)
                     self.new(obj)
         except Exception:
-            print("reload was not successful")
+            pass

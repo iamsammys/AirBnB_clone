@@ -63,6 +63,7 @@ class HBNBCommand(cmd.Cmd):
             return
         key = "{}.{}".format(arg[0], arg[1])
         del HBNBCommand.objects[key]
+        storage.save()
 
     def do_all(self, args):
         """All command to print the string representation of all instances
@@ -90,13 +91,13 @@ class HBNBCommand(cmd.Cmd):
         if not HBNBCommand.check_id(args):
             return
         if len(args) < 3:
-            print("** attribute name missing **")
-            return
+           print("** attribute name missing **")
+           return
         if len(args) < 4:
-            print("** value missing **")
-            return
+           print("** value missing **")
+           return
         attr_name = args[2]
-        attr_value = args[3]
+        attr_value = str(args[3])
         if attr_value.isdigit():
             attr_value = int(args[3])
         elif attr_value.replace(".", "", 1).isdigit() and\
