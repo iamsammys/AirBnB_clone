@@ -12,9 +12,9 @@ class HBNBCommand(cmd.Cmd):
     """entry point of the command interpreter
     """
     prompt = "(hbnb)"
-    classes = [
+    classes = (
             "BaseModel",
-            ]
+            )
     objects = storage.all()
 
     def do_EOF(self, line):
@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
         print(HBNBCommand.objects[key])
 
     def do_destroy(self, args):
-        """deletes an instance based on class name and id
+        """Destroy command to delete an instance based on class name and id
         """
         arg = args.split()
         if not HBNBCommand.check_class(arg):
@@ -63,6 +63,49 @@ class HBNBCommand(cmd.Cmd):
             return
         key = "{}.{}".format(arg[0], arg[1])
         del HBNBCommand.objects[key]
+
+    def do_all(self, args):
+        """All command to print the string representation of all instances
+        based or not on class name
+        """
+        str_lst = []
+        if len(args) > 0:
+            cls = args.split()
+            if not HBNBCommand.check_class(cls):
+                return
+            for key, instance in HBNBCommand.objects.items():
+                if args in key:
+                    str_lst.append(str(instance))
+        else:
+            for idx, instance in HBNBCommand.objects.items():
+                str_lst.append(str(instance))
+        print(str_lst)
+
+    def do_update(self, arg):
+        """Update command to update instances
+        """
+        args = arg.split()
+        if not HBNBCommand.check_class(args):
+            return
+        if not HBNBCommand.check_id(args):
+            return
+        if len(args) < 3:
+            print("** attribute name missing **")
+            return
+        if len(args) < 4:
+            print("** value missing **")
+            return
+        attr_name = args[2]
+        attr_value = args[3]
+        if attr_value.isdigit():
+            attr_value = int(args[3])
+        elif attr_value.replace(".", "", 1).isdigit() and\
+                attr_value.count(".") < 2:
+                    attr_value = float(args[3])
+        key = "{}.{}".format(args[0], args[1])
+        instance = HBNBCommand.objects[key]
+        setattr(instance, attr_name, attr_value)
+        instance.save()
 
     def check_class(args):
         """check if a class was passed and exists
