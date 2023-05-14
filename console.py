@@ -30,7 +30,7 @@ class HBNBCommand(cmd.Cmd):
         """method to do nothing when an empty line is inputed
         """
         pass
-    
+
     def do_create(self, lines):
         """Create command to create a new instance of a class
         """
@@ -91,18 +91,18 @@ class HBNBCommand(cmd.Cmd):
         if not HBNBCommand.check_id(args):
             return
         if len(args) < 3:
-           print("** attribute name missing **")
-           return
+            print("** attribute name missing **")
+            return
         if len(args) < 4:
-           print("** value missing **")
-           return
+            print("** value missing **")
+            return
         attr_name = args[2]
         attr_value = str(args[3])
         if attr_value.isdigit():
             attr_value = int(args[3])
         elif attr_value.replace(".", "", 1).isdigit() and\
                 attr_value.count(".") < 2:
-                    attr_value = float(args[3])
+            attr_value = float(args[3])
         key = "{}.{}".format(args[0], args[1])
         instance = HBNBCommand.objects[key]
         setattr(instance, attr_name, attr_value)
@@ -133,6 +133,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return False
         return True
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
