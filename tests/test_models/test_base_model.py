@@ -21,7 +21,7 @@ class TestBaseModel(unittest.TestCase):
         """
         self.base = BaseModel()
         self.functions = inspect.getmembers(BaseModel, inspect.isfunction)
-    
+
     def test_module_docstring(self):
         """tests that module is documented
         """
@@ -60,7 +60,7 @@ class TestBaseModel(unittest.TestCase):
         """
         created_at = self.base.created_at
         self.assertTrue(type(created_at) is datetime.datetime)
-    
+
     def test_updated_at_is_datetime(self):
         """tests that the updated_at attribute is an instance of datetime
         """
@@ -78,7 +78,7 @@ class TestBaseModel(unittest.TestCase):
         """tests that to string returns the string representation
         """
         string = "[{}] ({}) {}".format(self.base.__class__.__name__,
-                                        self.base.id, self.base.__dict__)
+                                       self.base.id, self.base.__dict__)
         base_string = self.base.__str__()
         self.assertEqual(base_string, string)
 
@@ -109,6 +109,7 @@ class TestBaseModel(unittest.TestCase):
         new_obj = BaseModel(**dictionary)
         self.assertTrue(isinstance(new_obj, BaseModel))
         self.assertNotEqual(new_obj, self.base)
+
 
 if __name__ == "__main__":
     unittest.main()
