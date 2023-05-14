@@ -31,6 +31,11 @@ class HBNBCommand(cmd.Cmd):
         """method to do nothing when an empty line is inputed
         """
         pass
+    
+    def postloop(self):
+        """method to do nothing after each console loop
+        """
+        pass
 
     def do_create(self, lines):
         """Create command to create a new instance of a class
