@@ -18,12 +18,12 @@ class HBNBCommand(cmd.Cmd):
     objects = storage.all()
 
     def do_EOF(self, line):
-        """EOF command to exit console
+        """EOF command to exit the program
         """
         return True
 
     def do_quit(self, line):
-        """Quit command to exit the CLI
+        """Quit command to exit the program
         """
         return True
 
