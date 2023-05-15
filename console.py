@@ -83,17 +83,18 @@ class HBNBCommand(cmd.Cmd):
         del HBNBCommand.objects[key]
         storage.save()
 
-    def do_all(self, args):
+    def do_all(self, arg):
         """All command to print the string representation of all instances
         based or not on class name
         """
         str_lst = []
-        if len(args) > 0:
-            cls = args.split()
-            if not HBNBCommand.check_class(cls):
+        if len(arg) > 0:
+            args = arg.split()
+            if not HBNBCommand.check_class(args):
                 return
+            cls = args[0]
             for key, instance in HBNBCommand.objects.items():
-                if args in key:
+                if cls in key:
                     str_lst.append(str(instance))
         else:
             for idx, instance in HBNBCommand.objects.items():
@@ -125,6 +126,57 @@ class HBNBCommand(cmd.Cmd):
         instance = HBNBCommand.objects[key]
         setattr(instance, attr_name, attr_value)
         instance.save()
+
+    def default(self, args):
+        """Default method that is called when the inputted command starts
+        with a class name.
+
+        Attributes:
+            args (str): The inputted line string
+        """
+        line = args.strip('()').split(".")
+        if len(line) > 1:
+            line[0], line[1] = line[1], line[0]
+        if len(line) < 2:
+            print('** missing attribute **')
+            return
+        objects = storage.all()
+        cls_name = line[1]
+        cmd_name = line[0]
+        if cmd_name == 'all':
+            HBNBCommand.do_all(self, cls_name)
+        elif cmd_name == 'count':
+            count = 0
+            for k in objects.keys():
+                key = k.split('.')
+                if cls_name == key[0]:
+                    count += 1
+            print(count)
+        elif cmd_name == 'show':
+            if len(split2) < 2:
+                print('** no instance found **')
+            else:
+                HBNBCommand.do_show(self, cls_name + ' ' + split2[1])
+        elif cmd_name == 'destroy':
+            if len(split2) < 2:
+                print('** no instance found **')
+            else:
+                HBNBCommand.do_destroy(self, cls_name + ' ' + split2[1])
+        elif cmd_name == 'update':
+            split3 = split2[1].split(', ')
+            if len(split3) == 0:
+                print('** no instance found **')
+            elif len(split3) == 1 and type(split3[1]) == dict:
+                for k, v in split[1].items():
+                    HBNBCommand.do_update(self, cls_name + ' ' + split3[0] +
+                                          ' ' + k + ' ' + v)
+            elif len(split3) == 1 and type(split3[1]) != dict:
+                print('** no instance found **')
+            elif len(split3) == 2:
+                print('** no instance found **')
+            else:
+                HBNBCommand.do_update(self, cls_name + ' ' + split3[0] +
+                                      ' ' + split3[1] + ' ' + split3[2])
 
     def check_class(args):
         """check if a class was passed and exists
