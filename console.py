@@ -148,7 +148,12 @@ class HBNBCommand(cmd.Cmd):
             id = line[1].strip(')')
             HBNBCommand.do_show(self, cls + " " + id)
             return
-    
+        elif cmd == "destroy":
+            cls = line[0].split(".")[0]
+            id = line[1].strip(')')
+            HBNBCommand.do_destroy(self, cls + " " + id)
+            return
+
     def check_class(args):
         """check if a class was passed and exists
         """
