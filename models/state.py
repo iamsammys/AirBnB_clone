@@ -2,6 +2,7 @@
 
 from models.base_model import BaseModel
 
+
 class State(BaseModel):
     """information for states in airbnb"""
     name = ""
