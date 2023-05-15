@@ -130,29 +130,24 @@ class HBNBCommand(cmd.Cmd):
     def default(self, args):
         """Default method that is called when the inputted command starts
         with a class name.
-
-        Attributes:
-            args (str): The inputted line string
         """
-        line = args.strip('()').split(".")
-        if len(line) > 1:
-            line[0], line[1] = line[1], line[0]
-        if len(line) < 2:
-            print('** missing attribute **')
-            return
-        objects = storage.all()
-        cls_name = line[1]
-        cmd_name = line[0]
-        split2 = cmd_name.strip(')').split('(')
-        if cmd_name == 'all':
-            HBNBCommand.do_all(self, cls_name)
-        elif cmd_name == 'count':
+        line = args.split("(")
+        cmd = line[0].split(".")[1]
+        if cmd == 'all':
+            HBNBCommand.do_all(self, line[0].split(".")[0])
+        elif cmd == 'count':
             count = 0
-            for k in objects.keys():
+            for k in HBNBCommand.objects.keys():
                 key = k.split('.')
-                if cls_name == key[0]:
+                if line[0].split(".")[0] == key[0]:
                     count += 1
             print(count)
+            return
+        elif cmd == "show":
+            cls = line[0].split(".")[0]
+            id = line[1].strip(')')
+            HBNBCommand.do_show(self, cls + " " + id)
+            return
     
     def check_class(args):
         """check if a class was passed and exists
