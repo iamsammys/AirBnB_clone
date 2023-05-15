@@ -2,10 +2,16 @@
 """Module for command line interpreter for models
 """
 
-import cmd
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
 from models import storage
+from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.city import City
+from models.engine.file_storage import FileStorage
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+import cmd
 
 
 class HBNBCommand(cmd.Cmd):
@@ -14,6 +20,12 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
     classes = (
             "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Amenity",
+            "Place",
+            "Review",
             )
     objects = storage.all()
 

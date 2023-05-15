@@ -6,8 +6,24 @@ created by:
     Emmanuel Ochoja
 """
 
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 import json
+
+classes = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review,
+        }
 
 
 class FileStorage:
@@ -49,8 +65,9 @@ class FileStorage:
         try:
             with open(file_name, "r") as file:
                 new_dict = json.load(file)
-                for key, value in new_dict.items():
-                    obj = BaseModel(**value)
+                for key in new_dict:
+                    cls = classes[new_dict[key]["__class__"]]
+                    obj = cls(**new_dict[key])
                     self.new(obj)
-        except Exception:
+        except Exception as error:
             pass
