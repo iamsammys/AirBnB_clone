@@ -143,6 +143,7 @@ class HBNBCommand(cmd.Cmd):
         objects = storage.all()
         cls_name = line[1]
         cmd_name = line[0]
+        split2 = cmd_name.strip(')').split('(')
         if cmd_name == 'all':
             HBNBCommand.do_all(self, cls_name)
         elif cmd_name == 'count':
@@ -152,32 +153,7 @@ class HBNBCommand(cmd.Cmd):
                 if cls_name == key[0]:
                     count += 1
             print(count)
-        elif cmd_name == 'show':
-            if len(split2) < 2:
-                print('** no instance found **')
-            else:
-                HBNBCommand.do_show(self, cls_name + ' ' + split2[1])
-        elif cmd_name == 'destroy':
-            if len(split2) < 2:
-                print('** no instance found **')
-            else:
-                HBNBCommand.do_destroy(self, cls_name + ' ' + split2[1])
-        elif cmd_name == 'update':
-            split3 = split2[1].split(', ')
-            if len(split3) == 0:
-                print('** no instance found **')
-            elif len(split3) == 1 and type(split3[1]) == dict:
-                for k, v in split[1].items():
-                    HBNBCommand.do_update(self, cls_name + ' ' + split3[0] +
-                                          ' ' + k + ' ' + v)
-            elif len(split3) == 1 and type(split3[1]) != dict:
-                print('** no instance found **')
-            elif len(split3) == 2:
-                print('** no instance found **')
-            else:
-                HBNBCommand.do_update(self, cls_name + ' ' + split3[0] +
-                                      ' ' + split3[1] + ' ' + split3[2])
-
+    
     def check_class(args):
         """check if a class was passed and exists
         """
