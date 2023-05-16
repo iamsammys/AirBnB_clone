@@ -105,6 +105,9 @@ class HBNBCommand(cmd.Cmd):
         """Update command to update instances
         """
         args = arg.split()
+        if "\"" in args[1] or "\"" in args[2]:
+            args[1], args[2], args[3] = args[1].strip("\""),\
+            args[2].strip("\""), args[3].strip("\"")
         if not HBNBCommand.check_class(args):
             return
         if not HBNBCommand.check_id(args):
@@ -153,6 +156,10 @@ class HBNBCommand(cmd.Cmd):
             id = line[1].strip(')')
             HBNBCommand.do_destroy(self, cls + " " + id)
             return
+        elif cmd ==  "update":
+            temp = line[1].strip(')').split(",")
+            HBNBCommand.do_update(self, line[0].split(".")[0] + " " +\
+                                   temp[0] + " " + temp[1] + " " + temp[2])
 
     def check_class(args):
         """check if a class was passed and exists
